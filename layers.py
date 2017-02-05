@@ -1,6 +1,5 @@
 import lasagne
-from lasagne.layers import (DenseLayer, InputLayer, FeaturePoolLayer,
-                            DropoutLayer)
+from lasagne.layers import (DenseLayer, InputLayer, FeaturePoolLayer, DropoutLayer, ConcatLayer)
 from lasagne import init, layers
 from lasagne.nonlinearities import leaky_rectify
 
@@ -32,7 +31,7 @@ except ImportError:
         print("using CPU backend")
 
 
-def conv_params(name, num_filters, filter_size=(3, 3), border_mode='same',
+def conv_params(name, num_filters, filter_size=(3, 3), pad=0, border_mode='same',
          nonlinearity=leaky_rectify, W=init.Orthogonal(gain=1.0),
          b=init.Constant(0.05), untie_biases=True, **kwargs):
     args = {
@@ -44,6 +43,7 @@ def conv_params(name, num_filters, filter_size=(3, 3), border_mode='same',
         'W': W, 
         'b': b,
         'untie_biases': untie_biases,
+        'pad': pad,
     }
     args.update(kwargs)
     return args
