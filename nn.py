@@ -43,7 +43,7 @@ def create_net(config, **kwargs):
             util.float32(config.get('schedule')[0])),
         'update': nesterov_momentum,
         'update_momentum': 0.9,
-        'custom_score': ('kappa', util.kappa),
+        'custom_score': ('kappa', util.kappa),  #fill in with the other score
 
     }
     args.update(kwargs)
