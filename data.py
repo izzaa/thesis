@@ -145,9 +145,9 @@ def perturb_fixed(img, tform_augment, target_shape=(50, 50)):
                      output_shape=target_shape, mode='constant')
 
 
-def load_perturbed(fname):
-    img = util.load_image(fname).astype(np.float32)
-    return perturb(img)
+# def load_perturbed(fname):
+#     img = util.load_image(fname).astype(np.float32)
+#     return perturb(img)
 
 
 def augment_color(img, sigma=0.1, color_vec=None):
@@ -184,29 +184,29 @@ def load_augment(fname, w, h, aug_params=no_augmentation_params,
     return img
 
 
-def compute_mean(files, batch_size=128):
-    """Load images in files in batches and compute mean."""
-    m = np.zeros(3)
-    for i in range(0, len(files), batch_size):
-        images = load_image(files[i : i + batch_size])
-        m += images.sum(axis=(0, 2, 3))
-    return (m / len(files)).astype(np.float32)
+# def compute_mean(files, batch_size=128):
+#     """Load images in files in batches and compute mean."""
+#     m = np.zeros(3)
+#     for i in range(0, len(files), batch_size):
+#         images = load_image(files[i : i + batch_size])
+#         m += images.sum(axis=(0, 2, 3))
+#     return (m / len(files)).astype(np.float32)
 
 
-def std(files, batch_size=128):
-    s = np.zeros(3)
-    s2 = np.zeros(3)
-    shape = None
-    for i in range(0, len(files), batch_size):
-        print("done with {:>3} / {} images".format(i, len(files)))
-        images = np.array(load_image_uint(files[i : i + batch_size]),
-                          dtype=np.float64)
-        shape = images.shape
-        s += images.sum(axis=(0, 2, 3))
-        s2 += np.power(images, 2).sum(axis=(0, 2, 3))
-    n = len(files) * shape[2] * shape[3]
-    var = (s2 - s**2.0 / n) / (n - 1)
-    return np.sqrt(var)
+# def std(files, batch_size=128):
+#     s = np.zeros(3)
+#     s2 = np.zeros(3)
+#     shape = None
+#     for i in range(0, len(files), batch_size):
+#         print("done with {:>3} / {} images".format(i, len(files)))
+#         images = np.array(load_image_uint(files[i : i + batch_size]),
+#                           dtype=np.float64)
+#         shape = images.shape
+#         s += images.sum(axis=(0, 2, 3))
+#         s2 += np.power(images, 2).sum(axis=(0, 2, 3))
+#     n = len(files) * shape[2] * shape[3]
+#     var = (s2 - s**2.0 / n) / (n - 1)
+#     return np.sqrt(var)
 
 
 def get_labels(names, labels=None, label_file='data/trainLabels.csv', 
@@ -241,18 +241,18 @@ def load_image(fname):
         return np.array([load_image(f) for f in fname])
 
 
-def balance_shuffle_indices(y, random_state=None, weight=BALANCE_WEIGHTS):
-    y = np.asarray(y)
-    counter = Counter(y)
-    max_count = np.max(counter.values())
-    indices = []
-    for cls, count in counter.items():
-        ratio = weight * max_count / count + (1 - weight)
-        idx = np.tile(np.where(y == cls)[0], 
-                      np.ceil(ratio).astype(int))
-        np.random.shuffle(idx)
-        indices.append(idx[:max_count])
-    return shuffle(np.hstack(indices), random_state=random_state)
+# def balance_shuffle_indices(y, random_state=None, weight=BALANCE_WEIGHTS):
+#     y = np.asarray(y)
+#     counter = Counter(y)
+#     max_count = np.max(counter.values())
+#     indices = []
+#     for cls, count in counter.items():
+#         ratio = weight * max_count / count + (1 - weight)
+#         idx = np.tile(np.where(y == cls)[0],
+#                       np.ceil(ratio).astype(int))
+#         np.random.shuffle(idx)
+#         indices.append(idx[:max_count])
+#     return shuffle(np.hstack(indices), random_state=random_state)
 
 
 def balance_per_class_indices(y, weights=BALANCE_WEIGHTS):

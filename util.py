@@ -6,7 +6,7 @@ import os
 import numpy as np
 
 from quadratic_weighted_kappa import quadratic_weighted_kappa
-
+from sklearn.metrics import f1_score
 
 def float32(k):
     return np.cast['float32'](k)
@@ -21,6 +21,18 @@ def kappa(y_true, y_pred):
         y_pred = y_pred.dot(range(y_pred.shape[1]))
     try:
         return quadratic_weighted_kappa(y_true, y_pred)
+    except IndexError:
+        return np.nan
+
+def f1score(y_true, y_pred):
+    y_true = np.array(y_true)
+    y_pred = np.array(y_pred)
+    if len(y_true.shape) > 1 and y_true.shape[1] > 1:
+        y_true = y_true.dot(range(y_true.shape[1]))
+    if len(y_pred.shape) > 1 and y_pred.shape[1] > 1:
+        y_pred = y_pred.dot(range(y_pred.shape[1]))
+    try:
+        return f1_score(y_true, y_pred)
     except IndexError:
         return np.nan
 

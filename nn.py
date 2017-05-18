@@ -3,7 +3,7 @@ from time import time
 
 import lasagne
 import lasagne.layers
-from lasagne.updates import nesterov_momentum
+from lasagne.updates import nesterov_momentum, sgd, momentum, adagrad, rmsprop, adadelta, adam
 from lasagne.objectives import Objective
 from lasagne.layers import get_all_layers, get_output, InputLayer
 from nolearn.lasagne import NeuralNet
